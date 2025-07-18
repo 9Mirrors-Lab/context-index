@@ -1,0 +1,33 @@
+name: Auto-update README on repo changes
+
+on:
+  repository_dispatch:
+    types: [repo-added]
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run generate_readme.py
+        run: python .github/scripts/generate_readme.py
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add README.md
+          git commit -m "Auto-update README after repo addition" || echo "No changes"
+          git push
