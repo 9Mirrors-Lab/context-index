@@ -3,7 +3,7 @@ name: Update README with know-* repos
 on:
   schedule:
     - cron: '*/15 * * * *'  # Every 15 minutes
-  workflow_dispatch:        # Manual run option
+  workflow_dispatch:        # Manual trigger option
 
 jobs:
   update-readme:
@@ -19,16 +19,16 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install PyGithub
+        run: pip install PyGithub python-dotenv pyjwt requests
+
+      - name: Write private key to file
+        run: echo "${{ secrets.PRIVATE_KEY }}" > private-key.pem
 
       - name: Run generate_readme.py using GitHub App
         run: python .github/scripts/generate_readme.py
         env:
-          GITHUB_APP_ID: ${{ secrets.GITHUB_APP_ID }}
-          GITHUB_INSTALLATION_ID: ${{ secrets.GITHUB_INSTALLATION_ID }}
-          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
-          GITHUB_ORG: 9Mirrors-Lab
-          PRIVATE_KEY_PATH: private-key.pem
+          APP_ID: ${{ secrets.APP_ID }}
+          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
 
       - name: Commit and push changes
         run: |
