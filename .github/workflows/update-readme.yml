@@ -27,8 +27,11 @@ jobs:
       - name: Run generate_readme.py using GitHub App
         run: python .github/scripts/generate_readme.py
         env:
-          APP_ID: ${{ secrets.APP_ID }}
-          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
+          GITHUB_APP_ID: ${{ secrets.APP_ID }}
+          GITHUB_INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
+          GITHUB_PRIVATE_KEY_PATH: private-key.pem
+          GITHUB_REPO_OWNER: 9Mirrors-Lab
+          GITHUB_REPO_NAME: knowledge-index
 
       - name: Commit and push changes
         run: |
