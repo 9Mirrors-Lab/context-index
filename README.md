@@ -1,5 +1,10 @@
 # 📘 9Mirrors Knowledge Index
 
+[![MCP Enabled](https://img.shields.io/badge/MCP-ready-blueviolet)](https://gitmcp.io/9Mirrors-Lab/knowledge-index)
+[![Pine Scripts](https://img.shields.io/badge/TradingView-PineScript-green)](https://github.com/9Mirrors-Lab/know-pinescript-arunkb)
+[![n8n Workflows](https://img.shields.io/badge/n8n-workflows-orange)](https://github.com/9Mirrors-Lab/know-n8n-zie619)
+[![Last Update](https://img.shields.io/github/last-commit/9Mirrors-Lab/knowledge-index)](https://github.com/9Mirrors-Lab/knowledge-index/commits/main)
+
 This is a centralized index of reference repositories designed to support AI tools like Claude, GitMCP, Cursor, and custom LLM workflows. Each listed repo contains curated code, prompts, or workflow assets prepared for AI context ingestion.
 
 ---
@@ -47,4 +52,4 @@ These repos are structured to support:
 
 ---
 
-_Last updated: {{2025-07-18}}_
+_Last updated: 2025-07-18_
