@@ -5,27 +5,22 @@ import jwt
 import time
 import requests
 from github import Github
-from dotenv import load_dotenv
 
-# === Load env vars ===
-load_dotenv()
-APP_ID = os.getenv("GITHUB_APP_ID")
-INSTALLATION_ID = os.getenv("GITHUB_INSTALLATION_ID")
-PRIVATE_KEY_PATH = os.getenv("GITHUB_PRIVATE_KEY_PATH")
-REPO_OWNER = os.getenv("GITHUB_REPO_OWNER")
-REPO_NAME = os.getenv("GITHUB_REPO_NAME")
+# === Load env vars from GitHub Actions ===
+APP_ID = os.getenv("APP_ID")
+INSTALLATION_ID = os.getenv("INSTALLATION_ID")
+PRIVATE_KEY = os.getenv("PRIVATE_KEY")  # private key as a string
+REPO_OWNER = "9Mirrors-Lab"
+REPO_NAME = "knowledge-index"
 
 # === Generate JWT ===
-def generate_jwt(app_id, private_key_path):
-    with open(private_key_path, "r") as f:
-        private_key = f.read()
-
+def generate_jwt(app_id, private_key_str):
     payload = {
         "iat": int(time.time()) - 60,
         "exp": int(time.time()) + (10 * 60),
         "iss": app_id
     }
-    return jwt.encode(payload, private_key, algorithm="RS256")
+    return jwt.encode(payload, private_key_str, algorithm="RS256")
 
 # === Get installation token ===
 def get_installation_token(jwt_token, installation_id):
@@ -35,6 +30,7 @@ def get_installation_token(jwt_token, installation_id):
         "Accept": "application/vnd.github+json"
     }
     response = requests.post(url, headers=headers)
+    response.raise_for_status()
     return response.json()["token"]
 
 # === Generate new README content ===
@@ -63,7 +59,7 @@ def generate_readme(repos):
 
 # === Main logic ===
 def main():
-    jwt_token = generate_jwt(APP_ID, PRIVATE_KEY_PATH)
+    jwt_token = generate_jwt(APP_ID, PRIVATE_KEY)
     installation_token = get_installation_token(jwt_token, INSTALLATION_ID)
 
     gh = Github(installation_token)
