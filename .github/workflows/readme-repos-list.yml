@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Update README with list of repos
+      - name: Update README with clean list of repos
         uses: koj-co/readme-repos-list@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -21,6 +21,6 @@ jobs:
           path: README.md
           start: '<!-- REPO-LIST:START -->'
           end: '<!-- REPO-LIST:END -->'
-          prefix: '- ['
-          suffix: '](https://github.com/${{ repo.full_name }})'
+          prefix: '- '
+          suffix: ''
           no-homepage: true
