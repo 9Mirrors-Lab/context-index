@@ -21,4 +21,4 @@ jobs:
           start: '<!-- REPO-LIST:START -->'
           end: '<!-- REPO-LIST:END -->'
           max: 100
-          template: '- [{{name}}]({{url}}) - {{description}}'
+          template: '- [{{name}}]({{url}}) - {{description}} - GitMCP ({{url}})'
