@@ -5,8 +5,9 @@
 
 This is a centralized index of reference repositories designed to support AI tools like Claude, GitMCP, Cursor, and custom LLM workflows. Each listed repo contains curated code, prompts, or workflow assets prepared for AI context ingestion.
 ## Knowledge Repos
-<!-- REPO-TABLE:START -->
-<!-- REPO-TABLE:END -->
+
+<!-- REPO-LIST:START -->
+<!-- REPO-LIST:END -->
 ---
 
 ## 🧩 Usage
