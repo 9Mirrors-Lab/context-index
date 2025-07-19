@@ -24,25 +24,33 @@ jobs:
       - name: Write private key to file
         run: |
           # Decode base64 encoded private key to avoid GitHub secret masking
-          echo "$PRIVATE_KEY" | base64 -d > private-key.der
+          echo "$PRIVATE_KEY" | base64 -d > private-key.raw
           echo "✅ Private key written to file"
           
-          # Check file format and convert DER to PEM if needed
-          FILE_OUTPUT=$(file private-key.der)
+          # Check file format
+          FILE_OUTPUT=$(file private-key.raw)
           echo "🔍 File detection output: $FILE_OUTPUT"
           
           # Check if it's DER format (binary data starting with 0x30 0x82)
-          FIRST_BYTES=$(hexdump -C private-key.der | head -1 | cut -d' ' -f2-3)
+          FIRST_BYTES=$(hexdump -C private-key.raw | head -1 | cut -d' ' -f2-3)
           echo "🔍 First bytes: $FIRST_BYTES"
           
           if [[ "$FIRST_BYTES" == "30 82" ]] || echo "$FILE_OUTPUT" | grep -q -i "der\|data"; then
-            echo "🔧 Converting DER format to PEM format..."
-            openssl rsa -in private-key.der -inform DER -out private-key.pem -outform PEM
-            echo "✅ Converted DER to PEM format"
+            echo "🔧 Converting DER format to PKCS#8 PEM format..."
+            openssl pkcs8 -inform DER -in private-key.raw -nocrypt -out private-key.pem
+            echo "✅ Converted DER to PKCS#8 PEM format"
+          elif echo "$FILE_OUTPUT" | grep -q "PEM RSA private key"; then
+            echo "🔧 Converting PKCS#1 (RSA) to PKCS#8 format..."
+            openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in private-key.raw -out private-key.pem
+            echo "✅ Converted PKCS#1 to PKCS#8 format"
           else
-            echo "🔧 Assuming PEM format, copying file..."
-            cp private-key.der private-key.pem
+            echo "🔧 Assuming already PKCS#8 PEM format, copying file..."
+            cp private-key.raw private-key.pem
           fi
+          
+          # Verify the final format
+          echo "🔍 Final key format:"
+          head -1 private-key.pem
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY_BASE64 }}
 
