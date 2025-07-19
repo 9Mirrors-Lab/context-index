@@ -25,8 +25,15 @@ jobs:
           echo "$PRIVATE_KEY" | base64 -d > private-key.der
           echo "✅ Private key written to file"
           
-          # Check if it's DER format and convert to PEM if needed
-          if file private-key.der | grep -q "private key"; then
+          # Check file format and convert DER to PEM if needed
+          FILE_OUTPUT=$(file private-key.der)
+          echo "🔍 File detection output: $FILE_OUTPUT"
+          
+          # Check if it's DER format (binary data starting with 0x30 0x82)
+          FIRST_BYTES=$(hexdump -C private-key.der | head -1 | cut -d' ' -f2-3)
+          echo "🔍 First bytes: $FIRST_BYTES"
+          
+          if [[ "$FIRST_BYTES" == "30 82" ]] || echo "$FILE_OUTPUT" | grep -q -i "der\|data"; then
             echo "🔧 Converting DER format to PEM format..."
             openssl rsa -in private-key.der -inform DER -out private-key.pem -outform PEM
             echo "✅ Converted DER to PEM format"
