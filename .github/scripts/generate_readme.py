@@ -15,64 +15,25 @@ REPO_NAME = "knowledge-index"
 
 # Read and format private key properly
 def load_private_key():
+    """Load the private key from file (already converted to PKCS#8 by workflow)."""
     try:
-        if not os.path.exists(PRIVATE_KEY_PATH):
-            raise FileNotFoundError(f"Private key file not found: {PRIVATE_KEY_PATH}")
+        print(f"📂 Reading private key from: {PRIVATE_KEY_PATH}")
         
         with open(PRIVATE_KEY_PATH, "r") as f:
-            private_key = f.read()
+            private_key = f.read().strip()
         
-        print(f"📄 Private key loaded, length: {len(private_key)} characters")
-        print(f"📄 First 100 chars: '{private_key[:100]}'")
-        print(f"📄 Last 100 chars: '{private_key[-100:]}'")
+        print(f"🔑 Private key loaded successfully")
+        print(f"🔑 Key length: {len(private_key)} characters")
+        print(f"🔑 Key starts with: {private_key[:50]}...")
+        print(f"🔑 Key ends with: ...{private_key[-50:]}")
         
-        # Enhanced validation
-        if not private_key.startswith("-----BEGIN RSA PRIVATE KEY-----"):
-            print("🔧 Private key missing RSA header, attempting to add...")
-            private_key = private_key.replace("\\n", "\n")
-            if not private_key.startswith("-----BEGIN RSA PRIVATE KEY-----"):
-                private_key = f"-----BEGIN RSA PRIVATE KEY-----\n{private_key}\n-----END RSA PRIVATE KEY-----"
-                with open(PRIVATE_KEY_PATH, "w") as f:
-                    f.write(private_key)
-                print("🔧 Added RSA headers and saved")
-        
-        # Check for PKCS#8 format and convert if needed
-        if private_key.startswith("-----BEGIN PRIVATE KEY-----"):
-            print("🔧 Detected PKCS#8 format, attempting conversion...")
-            try:
-                # Load PKCS#8 key and convert to traditional RSA format
-                import cryptography.hazmat.primitives.serialization as serialization
-                from cryptography.hazmat.primitives import serialization as ser
-                
-                pkcs8_key = serialization.load_pem_private_key(
-                    private_key.encode('utf-8'),
-                    password=None
-                )
-                
-                # Convert to traditional RSA format
-                rsa_private_key = pkcs8_key.private_bytes(
-                    encoding=ser.Encoding.PEM,
-                    format=ser.PrivateFormat.TraditionalOpenSSL,
-                    encryption_algorithm=ser.NoEncryption()
-                ).decode('utf-8')
-                
-                print("✅ Successfully converted PKCS#8 to RSA format")
-                private_key = rsa_private_key
-                
-                # Save the converted key
-                with open(PRIVATE_KEY_PATH, "w") as f:
-                    f.write(private_key)
-                print("💾 Saved converted RSA key")
-                
-            except Exception as conv_e:
-                print(f"❌ PKCS#8 conversion failed: {conv_e}")
-                # Continue with original key
-        
-        # Final validation
-        if private_key.startswith("-----BEGIN RSA PRIVATE KEY-----") and private_key.endswith("-----END RSA PRIVATE KEY-----"):
-            print("✅ Private key appears to be properly formatted")
+        # Basic validation - should be PKCS#8 format now
+        if private_key.startswith("-----BEGIN PRIVATE KEY-----") and private_key.endswith("-----END PRIVATE KEY-----"):
+            print("✅ Private key is in PKCS#8 format")
+        elif private_key.startswith("-----BEGIN RSA PRIVATE KEY-----") and private_key.endswith("-----END RSA PRIVATE KEY-----"):
+            print("⚠️ Private key is in PKCS#1 format - workflow conversion may have failed")
         else:
-            print("⚠️ Private key format may have issues")
+            print("❌ Private key format not recognized")
             
         return private_key
         
@@ -85,7 +46,7 @@ def generate_jwt(app_id, private_key_str):
     try:
         print(f"🔑 Generating JWT with app_id: {app_id}")
         print(f"🔑 Private key length: {len(private_key_str)}")
-        print(f"🔑 Private key starts with: {private_key_str[:50]}...")
+        print(f"🔑 Private key starts with: {private_key_str[:30]}...")
         
         payload = {
             "iat": int(time.time()) - 60,
@@ -93,101 +54,47 @@ def generate_jwt(app_id, private_key_str):
             "iss": app_id
         }
         
-        # Try multiple approaches for JWT generation
-        methods = [
-            ("direct", private_key_str),
-            ("stripped", private_key_str.strip()),
-            ("with_newline", private_key_str.strip() + "\n"),
-        ]
-        
-        for method_name, key in methods:
-            try:
-                print(f"🔧 Trying method: {method_name}")
-                token = jwt.encode(payload, key, algorithm="RS256")
-                print(f"✅ JWT token generated successfully with {method_name}")
-                return token
-            except Exception as e:
-                print(f"❌ Method {method_name} failed: {e}")
-                continue
-        
-        # If all methods fail, try with cryptography backend explicitly
+        # Use cryptography library to load the private key properly
         try:
-            print("🔧 Trying with explicit cryptography backend...")
-            import cryptography.hazmat.primitives.serialization as serialization
-            from cryptography.hazmat.primitives import hashes
-            from cryptography.hazmat.primitives.asymmetric import padding
+            from cryptography.hazmat.primitives import serialization
             
-            print(f"🔧 Key starts with: '{private_key_str[:50]}...'")
-            print(f"🔧 Key ends with: '...{private_key_str[-50:]}'")
-            
-            # Try to load the private key using cryptography with detailed error handling
-            try:
-                private_key_obj = serialization.load_pem_private_key(
-                    private_key_str.encode('utf-8'),
-                    password=None
-                )
-                print("✅ Cryptography library successfully loaded the private key")
-            except Exception as key_load_error:
-                print(f"❌ Cryptography key loading failed: {key_load_error}")
-                # Try with stripped key
-                try:
-                    stripped_key = private_key_str.strip()
-                    print(f"🔧 Trying with stripped key (length: {len(stripped_key)})")
-                    private_key_obj = serialization.load_pem_private_key(
-                        stripped_key.encode('utf-8'),
-                        password=None
-                    )
-                    print("✅ Cryptography library loaded stripped key successfully")
-                except Exception as stripped_error:
-                    print(f"❌ Stripped key also failed: {stripped_error}")
-                    # Try cleaning the key content
-                    try:
-                        # Remove any potential invisible characters and normalize
-                        clean_key = ''.join(char for char in private_key_str if ord(char) < 128)
-                        clean_key = clean_key.replace('\r\n', '\n').replace('\r', '\n')
-                        print(f"🔧 Trying with cleaned key (length: {len(clean_key)})")
-                        private_key_obj = serialization.load_pem_private_key(
-                            clean_key.encode('utf-8'),
-                            password=None
-                        )
-                        print("✅ Cryptography library loaded cleaned key successfully")
-                        private_key_str = clean_key  # Use the cleaned key for JWT
-                    except Exception as clean_error:
-                        print(f"❌ Cleaned key also failed: {clean_error}")
-                        raise clean_error
-            
-            # Create JWT manually using cryptography
-            header = {"alg": "RS256", "typ": "JWT"}
-            import base64
-            import json
-            
-            # Encode header and payload
-            header_b64 = base64.urlsafe_b64encode(json.dumps(header).encode()).rstrip(b'=').decode()
-            payload_b64 = base64.urlsafe_b64encode(json.dumps(payload).encode()).rstrip(b'=').decode()
-            
-            # Create signature
-            message = f"{header_b64}.{payload_b64}".encode()
-            signature = private_key_obj.sign(
-                message,
-                padding.PKCS1v15(),
-                hashes.SHA256()
+            # Load the private key using cryptography
+            private_key = serialization.load_pem_private_key(
+                private_key_str.encode('utf-8'),
+                password=None
             )
-            signature_b64 = base64.urlsafe_b64encode(signature).rstrip(b'=').decode()
+            print("✅ Private key loaded successfully with cryptography")
             
-            token = f"{header_b64}.{payload_b64}.{signature_b64}"
-            print("✅ JWT token generated successfully with cryptography backend")
-            print(f"   Token length: {len(token)}")
+            # Generate JWT using the loaded private key
+            token = jwt.encode(payload, private_key, algorithm="RS256")
+            print("✅ JWT token generated successfully")
             return token
             
-        except Exception as e:
-            print(f"❌ Cryptography backend also failed: {e}")
-            raise Exception(f"All JWT generation methods failed. Last error: {e}")
+        except Exception as crypto_e:
+            print(f"❌ Cryptography method failed: {crypto_e}")
             
+            # Fallback: Try direct string methods (for backward compatibility)
+            print("🔧 Trying fallback methods...")
+            methods = [
+                ("direct", private_key_str),
+                ("stripped", private_key_str.strip()),
+                ("with_newline", private_key_str.strip() + "\n"),
+            ]
+            
+            for method_name, key in methods:
+                try:
+                    print(f"🔧 Trying method: {method_name}")
+                    token = jwt.encode(payload, key, algorithm="RS256")
+                    print(f"✅ JWT token generated successfully with {method_name}")
+                    return token
+                except Exception as e:
+                    print(f"❌ Method {method_name} failed: {e}")
+                    continue
+            
+            raise Exception(f"All JWT generation methods failed. Last error: {crypto_e}")
+        
     except Exception as e:
         print(f"❌ Error generating JWT: {e}")
-        print(f"App ID: {app_id}")
-        print(f"Private key length: {len(private_key_str)}")
-        print(f"Private key starts with: {private_key_str[:50]}...")
         raise
 
 # === Get installation token ===
