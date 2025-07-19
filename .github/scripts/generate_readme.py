@@ -71,27 +71,62 @@ def generate_jwt(app_id, private_key_str):
             "iss": app_id
         }
         
-        # Use the private key directly - PyJWT handles RSA private keys correctly
-        token = jwt.encode(payload, private_key_str, algorithm="RS256")
-        print("✅ JWT token generated successfully")
-        return token
-    except jwt.InvalidKeyError as e:
-        print(f"❌ Invalid key format: {e}")
-        print("🔧 Attempting to fix key format...")
+        # Try multiple approaches for JWT generation
+        methods = [
+            ("direct", private_key_str),
+            ("stripped", private_key_str.strip()),
+            ("with_newline", private_key_str.strip() + "\n"),
+        ]
         
-        # Try to fix common key format issues
+        for method_name, key in methods:
+            try:
+                print(f"🔧 Trying method: {method_name}")
+                token = jwt.encode(payload, key, algorithm="RS256")
+                print(f"✅ JWT token generated successfully with {method_name}")
+                return token
+            except Exception as e:
+                print(f"❌ Method {method_name} failed: {e}")
+                continue
+        
+        # If all methods fail, try with cryptography backend explicitly
         try:
-            # Remove any extra whitespace and ensure proper line breaks
-            cleaned_key = private_key_str.strip()
-            if not cleaned_key.endswith('\n'):
-                cleaned_key += '\n'
+            print("🔧 Trying with explicit cryptography backend...")
+            import cryptography.hazmat.primitives.serialization as serialization
+            from cryptography.hazmat.primitives import hashes
+            from cryptography.hazmat.primitives.asymmetric import padding
             
-            token = jwt.encode(payload, cleaned_key, algorithm="RS256")
-            print("✅ JWT token generated successfully with cleaned key")
+            # Load the private key using cryptography
+            private_key_obj = serialization.load_pem_private_key(
+                private_key_str.encode('utf-8'),
+                password=None
+            )
+            
+            # Create JWT manually using cryptography
+            header = {"alg": "RS256", "typ": "JWT"}
+            import base64
+            import json
+            
+            # Encode header and payload
+            header_b64 = base64.urlsafe_b64encode(json.dumps(header).encode()).rstrip(b'=').decode()
+            payload_b64 = base64.urlsafe_b64encode(json.dumps(payload).encode()).rstrip(b'=').decode()
+            
+            # Create signature
+            message = f"{header_b64}.{payload_b64}".encode()
+            signature = private_key_obj.sign(
+                message,
+                padding.PKCS1v15(),
+                hashes.SHA256()
+            )
+            signature_b64 = base64.urlsafe_b64encode(signature).rstrip(b'=').decode()
+            
+            token = f"{header_b64}.{payload_b64}.{signature_b64}"
+            print("✅ JWT token generated successfully with cryptography backend")
             return token
-        except Exception as e2:
-            print(f"❌ Still failed with cleaned key: {e2}")
-            raise
+            
+        except Exception as e:
+            print(f"❌ Cryptography backend also failed: {e}")
+            raise Exception(f"All JWT generation methods failed. Last error: {e}")
+            
     except Exception as e:
         print(f"❌ Error generating JWT: {e}")
         print(f"App ID: {app_id}")

@@ -19,7 +19,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install PyGithub python-dotenv pyjwt requests
+        run: pip install PyGithub python-dotenv pyjwt[crypto] requests cryptography
 
       - name: Write private key to file
         run: |
@@ -28,6 +28,9 @@ jobs:
           echo "✅ Private key written to file"
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Check dependencies
+        run: python .github/scripts/check_dependencies.py
 
       - name: Test private key formatting
         run: python .github/scripts/test_private_key.py
