@@ -32,6 +32,9 @@ jobs:
       - name: Check dependencies
         run: python .github/scripts/check_dependencies.py
 
+      - name: Test base64 decoding
+        run: python .github/scripts/test_base64_decode.py
+
       - name: Test private key formatting
         run: python .github/scripts/test_private_key.py
 
