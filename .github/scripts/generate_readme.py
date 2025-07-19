@@ -16,44 +16,66 @@ REPO_NAME = "knowledge-index"
 # Read and format private key properly
 def load_private_key():
     try:
-        print(f"🔍 Looking for private key at: {PRIVATE_KEY_PATH}")
         if not os.path.exists(PRIVATE_KEY_PATH):
-            print(f"❌ Private key file not found: {PRIVATE_KEY_PATH}")
-            print(f"📁 Current directory contents:")
-            for file in os.listdir("."):
-                print(f"   - {file}")
             raise FileNotFoundError(f"Private key file not found: {PRIVATE_KEY_PATH}")
         
         with open(PRIVATE_KEY_PATH, "r") as f:
             private_key = f.read()
         
         print(f"📄 Private key loaded, length: {len(private_key)} characters")
-        print(f"📄 First 100 chars: {repr(private_key[:100])}")
-        print(f"📄 Last 100 chars: {repr(private_key[-100:])}")
+        print(f"📄 First 100 chars: '{private_key[:100]}'")
+        print(f"📄 Last 100 chars: '{private_key[-100:]}'")
         
-        # Ensure proper PEM formatting
+        # Enhanced validation
         if not private_key.startswith("-----BEGIN RSA PRIVATE KEY-----"):
-            print("⚠️ Private key doesn't start with proper PEM header, attempting to fix...")
-            # If it's not properly formatted, try to fix it
+            print("🔧 Private key missing RSA header, attempting to add...")
             private_key = private_key.replace("\\n", "\n")
             if not private_key.startswith("-----BEGIN RSA PRIVATE KEY-----"):
-                print("⚠️ Still not formatted, wrapping with PEM headers...")
-                # If still not formatted, wrap it
                 private_key = f"-----BEGIN RSA PRIVATE KEY-----\n{private_key}\n-----END RSA PRIVATE KEY-----"
-            
-            # Write the fixed key back
-            with open(PRIVATE_KEY_PATH, "w") as f:
-                f.write(private_key)
-            print("✅ Fixed private key written back to file")
+                with open(PRIVATE_KEY_PATH, "w") as f:
+                    f.write(private_key)
+                print("🔧 Added RSA headers and saved")
         
-        # Final verification
-        if "-----BEGIN RSA PRIVATE KEY-----" in private_key and "-----END RSA PRIVATE KEY-----" in private_key:
+        # Check for PKCS#8 format and convert if needed
+        if private_key.startswith("-----BEGIN PRIVATE KEY-----"):
+            print("🔧 Detected PKCS#8 format, attempting conversion...")
+            try:
+                # Load PKCS#8 key and convert to traditional RSA format
+                import cryptography.hazmat.primitives.serialization as serialization
+                from cryptography.hazmat.primitives import serialization as ser
+                
+                pkcs8_key = serialization.load_pem_private_key(
+                    private_key.encode('utf-8'),
+                    password=None
+                )
+                
+                # Convert to traditional RSA format
+                rsa_private_key = pkcs8_key.private_bytes(
+                    encoding=ser.Encoding.PEM,
+                    format=ser.PrivateFormat.TraditionalOpenSSL,
+                    encryption_algorithm=ser.NoEncryption()
+                ).decode('utf-8')
+                
+                print("✅ Successfully converted PKCS#8 to RSA format")
+                private_key = rsa_private_key
+                
+                # Save the converted key
+                with open(PRIVATE_KEY_PATH, "w") as f:
+                    f.write(private_key)
+                print("💾 Saved converted RSA key")
+                
+            except Exception as conv_e:
+                print(f"❌ PKCS#8 conversion failed: {conv_e}")
+                # Continue with original key
+        
+        # Final validation
+        if private_key.startswith("-----BEGIN RSA PRIVATE KEY-----") and private_key.endswith("-----END RSA PRIVATE KEY-----"):
             print("✅ Private key appears to be properly formatted")
         else:
-            print("❌ Private key still not properly formatted after fixes")
-            raise ValueError("Private key not in proper PEM format")
-        
+            print("⚠️ Private key format may have issues")
+            
         return private_key
+        
     except Exception as e:
         print(f"❌ Error loading private key: {e}")
         raise
@@ -95,11 +117,44 @@ def generate_jwt(app_id, private_key_str):
             from cryptography.hazmat.primitives import hashes
             from cryptography.hazmat.primitives.asymmetric import padding
             
-            # Load the private key using cryptography
-            private_key_obj = serialization.load_pem_private_key(
-                private_key_str.encode('utf-8'),
-                password=None
-            )
+            print(f"🔧 Key starts with: '{private_key_str[:50]}...'")
+            print(f"🔧 Key ends with: '...{private_key_str[-50:]}'")
+            
+            # Try to load the private key using cryptography with detailed error handling
+            try:
+                private_key_obj = serialization.load_pem_private_key(
+                    private_key_str.encode('utf-8'),
+                    password=None
+                )
+                print("✅ Cryptography library successfully loaded the private key")
+            except Exception as key_load_error:
+                print(f"❌ Cryptography key loading failed: {key_load_error}")
+                # Try with stripped key
+                try:
+                    stripped_key = private_key_str.strip()
+                    print(f"🔧 Trying with stripped key (length: {len(stripped_key)})")
+                    private_key_obj = serialization.load_pem_private_key(
+                        stripped_key.encode('utf-8'),
+                        password=None
+                    )
+                    print("✅ Cryptography library loaded stripped key successfully")
+                except Exception as stripped_error:
+                    print(f"❌ Stripped key also failed: {stripped_error}")
+                    # Try cleaning the key content
+                    try:
+                        # Remove any potential invisible characters and normalize
+                        clean_key = ''.join(char for char in private_key_str if ord(char) < 128)
+                        clean_key = clean_key.replace('\r\n', '\n').replace('\r', '\n')
+                        print(f"🔧 Trying with cleaned key (length: {len(clean_key)})")
+                        private_key_obj = serialization.load_pem_private_key(
+                            clean_key.encode('utf-8'),
+                            password=None
+                        )
+                        print("✅ Cryptography library loaded cleaned key successfully")
+                        private_key_str = clean_key  # Use the cleaned key for JWT
+                    except Exception as clean_error:
+                        print(f"❌ Cleaned key also failed: {clean_error}")
+                        raise clean_error
             
             # Create JWT manually using cryptography
             header = {"alg": "RS256", "typ": "JWT"}
@@ -121,6 +176,7 @@ def generate_jwt(app_id, private_key_str):
             
             token = f"{header_b64}.{payload_b64}.{signature_b64}"
             print("✅ JWT token generated successfully with cryptography backend")
+            print(f"   Token length: {len(token)}")
             return token
             
         except Exception as e:
