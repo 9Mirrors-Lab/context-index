@@ -48,9 +48,29 @@ jobs:
             cp private-key.raw private-key.pem
           fi
           
+          # Validate and fix PEM format (ensure 64-character lines)
+          echo "🔧 Validating PEM format..."
+          if head -1 private-key.pem | grep -q "BEGIN PRIVATE KEY"; then
+            echo "🔧 Reformatting PEM to ensure proper line lengths..."
+            
+            # Extract the base64 content (remove headers/footers)
+            sed '/-----BEGIN/d;/-----END/d' private-key.pem | tr -d '\n\r' > temp-base64.txt
+            
+            # Create properly formatted PEM with 64-character lines
+            echo "-----BEGIN PRIVATE KEY-----" > private-key.pem
+            fold -w 64 temp-base64.txt >> private-key.pem
+            echo "-----END PRIVATE KEY-----" >> private-key.pem
+            
+            # Clean up
+            rm -f temp-base64.txt
+            echo "✅ PEM format validated and corrected"
+          fi
+          
           # Verify the final format
           echo "🔍 Final key format:"
           head -1 private-key.pem
+          echo "🔍 Key file size: $(wc -c < private-key.pem) bytes"
+          echo "🔍 Number of lines: $(wc -l < private-key.pem)"
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY_BASE64 }}
 
