@@ -10,22 +10,14 @@ This is a centralized index of reference repositories designed to support AI too
 
 | Repo | GitHub | MCP |
 |------|--------|-----|
-<!-- REPO-TABLE:START -->knowledge-* [git-mcp](https://github.com/9Mirrors-Lab/git-mcp) - Put an end to code hallucinations! GitMCP is a free, open-source, remote MCP server for any GitHub project
-
-* [know-n8n-workflows](https://github.com/9Mirrors-Lab/know-n8n-workflows) - all of the workflows of n8n i could find (also from the site itself)
-
-* [knowledge-index](https://github.com/9Mirrors-Lab/knowledge-index) - Central index of AI reference repos (Pine Script, n8n, prompts, etc.)
-
-* [knowledge-PineScript](https://github.com/9Mirrors-Lab/knowledge-PineScript) - A collection of TradingView Pine Script codes.
-
-* [knowledge-tradingview-pinescript-v6-reference](https://github.com/9Mirrors-Lab/knowledge-tradingview-pinescript-v6-reference) - Structured Pine Script v6 documentation for MCP or RAG use
-
-* [mcp-crawl4ai-rag](https://github.com/9Mirrors-Lab/mcp-crawl4ai-rag) - Web Crawling and RAG Capabilities for AI Agents and AI Coding Assistants
-
-* [n8n](https://github.com/9Mirrors-Lab/n8n) - Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.
-
-* [n8nrenderbackup](https://github.com/9Mirrors-Lab/n8nrenderbackup)
-
+<!-- REPO-TABLE:START -->knowledge-[![9Mirrors-Lab/mcp-crawl4ai-rag](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F202573766%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/9Mirrors-Lab/mcp-crawl4ai-rag)
+[![9Mirrors-Lab/knowledge-PineScript](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F202573766%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/9Mirrors-Lab/knowledge-PineScript)
+[![9Mirrors-Lab/git-mcp](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F202573766%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://gitmcp.io)
+[![9Mirrors-Lab/n8nrenderbackup](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F202573766%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/9Mirrors-Lab/n8nrenderbackup)
+[![9Mirrors-Lab/know-n8n-workflows](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F202573766%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/9Mirrors-Lab/know-n8n-workflows)
+[![9Mirrors-Lab/n8n](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F202573766%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://n8n.io)
+[![9Mirrors-Lab/knowledge-index](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F202573766%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/9Mirrors-Lab/knowledge-index)
+[![9Mirrors-Lab/knowledge-tradingview-pinescript-v6-reference](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F202573766%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/9Mirrors-Lab/knowledge-tradingview-pinescript-v6-reference)
 <!-- REPO-TABLE:END -->
 
 ---
