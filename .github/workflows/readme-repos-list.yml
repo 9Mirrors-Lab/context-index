@@ -1,21 +1,21 @@
-name: Update README with Repos
+name: Update README with Knowledge Repos
 
 on:
   schedule:
-    - cron: '0 8 * * *' # Runs daily at 08:00 UTC
-  workflow_dispatch:    # Allows manual trigger
+    - cron: '0 8 * * *' # Daily at 8:00 UTC
+  workflow_dispatch:
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Update README with list of repos
+      - name: List repos and update README
         uses: koj-co/readme-repos-list@master
         with:
-          user: 9Mirrors-Lab
-          filter: ^know-     # Regex: only repos starting with "know-"
-          sort: updated      # or created, pushed, full_name
-          direction: desc    # or asc
-          filename: README.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          query: user:9Mirrors-Lab know- in:name
+          path: README.md
+          start: '<!-- REPO-LIST:START -->'
+          end: '<!-- REPO-LIST:END -->'
+          commit-message: 'chore: update repo list'
