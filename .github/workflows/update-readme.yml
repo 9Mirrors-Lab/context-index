@@ -22,7 +22,7 @@ jobs:
         run: pip install PyGithub python-dotenv pyjwt requests
 
       - name: Write private key to file
-        run: echo "${{ secrets.PRIVATE_KEY }}" > private-key.pem
+        run: echo "${{ secrets.PRIVATE_KEY }}" | sed 's/\\n/\n/g' > private-key.pem
 
       - name: Run generate_readme.py using GitHub App
         run: python .github/scripts/generate_readme.py
