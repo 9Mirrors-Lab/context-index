@@ -46,24 +46,15 @@ jobs:
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY_BASE64 }}
 
-      - name: Check dependencies
-        run: python .github/scripts/check_dependencies.py
-
-      - name: Test base64 decoding
-        run: python .github/scripts/test_base64_decode.py
-
-      - name: Test private key formatting
-        run: python .github/scripts/test_private_key.py
-
-      - name: Debug private key issues
-        run: python .github/scripts/debug_key.py
+      - name: Check dependencies and run tests
+        run: |
+          echo "🔍 Running dependency check..."
+          python .github/scripts/check_dependencies.py
+          
+          echo "🧪 Running main README generation..."
+          python .github/scripts/generate_readme.py
         env:
-          APP_ID: ${{ secrets.APP_ID }}
-          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
-
-      - name: Run generate_readme.py using GitHub App
-        run: python .github/scripts/generate_readme.py
-        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APP_ID: ${{ secrets.APP_ID }}
           INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
 
