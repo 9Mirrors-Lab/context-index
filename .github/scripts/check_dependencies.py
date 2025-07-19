@@ -29,15 +29,23 @@ def check_dependencies():
     except AttributeError:
         print("✅ Cryptography installed (version unknown)")
     
-    # Check if PyJWT has cryptography backend
+    # Safe check for PyJWT RS256 support
     try:
-        import jwt
-        # Try to access the cryptography backend
-        jwt._jwt_global_obj._algorithms.get('RS256')
-        print("✅ PyJWT has RS256 algorithm support")
-    except Exception as e:
-        print(f"❌ PyJWT RS256 support issue: {e}")
-        return False
+        supported_algorithms = jwt.get_algorithms()  # Available in PyJWT 2.x
+        if 'RS256' in supported_algorithms:
+            print("✅ PyJWT supports RS256 algorithm")
+        else:
+            print("❌ PyJWT does not support RS256")
+            return False
+    except AttributeError:
+        # Fallback for versions without get_algorithms()
+        try:
+            # Try to get the algorithm object
+            alg_obj = jwt.algorithms.RSAAlgorithm(jwt.algorithms.hashes.SHA256)
+            print("✅ PyJWT has RS256 support (via algorithm object)")
+        except Exception as e:
+            print(f"❌ PyJWT RS256 support issue: {e}")
+            return False
     
     print("✅ All dependencies look good")
     return True
