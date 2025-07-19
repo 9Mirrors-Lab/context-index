@@ -1,5 +1,4 @@
-name: Update README with Knowledge Repos
-
+name: Update README 
 on:
   schedule:
     - cron: '0 8 * * *'  # Runs daily at 8 AM UTC
