@@ -23,6 +23,8 @@ jobs:
 
       - name: Write private key to file
         run: echo "${{ secrets.PRIVATE_KEY }}" | sed 's/\\n/\n/g' > private-key.pem
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
 
       - name: Run generate_readme.py using GitHub App
         run: python .github/scripts/generate_readme.py
