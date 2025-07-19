@@ -24,8 +24,18 @@ jobs:
       - name: Write private key to file
         run: |
           # Decode base64 encoded private key to avoid GitHub secret masking
-          echo "$PRIVATE_KEY" | base64 -d > private-key.pem
+          echo "$PRIVATE_KEY" | base64 -d > private-key.der
           echo "✅ Private key written to file"
+          
+          # Check if it's DER format and convert to PEM if needed
+          if file private-key.der | grep -q "private key"; then
+            echo "🔧 Converting DER format to PEM format..."
+            openssl rsa -in private-key.der -inform DER -out private-key.pem -outform PEM
+            echo "✅ Converted DER to PEM format"
+          else
+            echo "🔧 Assuming PEM format, copying file..."
+            cp private-key.der private-key.pem
+          fi
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY_BASE64 }}
 
