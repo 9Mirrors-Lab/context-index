@@ -30,5 +30,3 @@ These repos are structured to support:
 > To add these to your AI coding tools, point to the `mcp.json` link under the MCP column.
 
 ---
-
-_Last updated: 2025-07-18_
