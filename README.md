@@ -4,10 +4,10 @@
 [![Last Update](https://img.shields.io/github/last-commit/9Mirrors-Lab/knowledge-index)](https://github.com/9Mirrors-Lab/knowledge-index/commits/main)
 
 This is a centralized index of reference repositories designed to support AI tools like Claude, GitMCP, Cursor, and custom LLM workflows. Each listed repo contains curated code, prompts, or workflow assets prepared for AI context ingestion.
-<!-- start: know-repos -->
-Existing content will be replaced by action
-<!-- end: know-repos -->
----
+## Knowledge Repos
+
+<!-- REPO-LIST:START -->
+<!-- REPO-LIST:END -->
 
 ## 📚 Auto-Indexed Knowledge Repositories
 
