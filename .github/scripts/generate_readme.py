@@ -9,7 +9,9 @@ from github import Github
 # === Load env vars from GitHub Actions ===
 APP_ID = os.getenv("APP_ID")
 INSTALLATION_ID = os.getenv("INSTALLATION_ID")
-PRIVATE_KEY = os.getenv("PRIVATE_KEY")  # private key as a string
+PRIVATE_KEY_PATH = "private-key.pem"
+with open(PRIVATE_KEY_PATH, "r") as f:
+    PRIVATE_KEY = f.read()
 REPO_OWNER = "9Mirrors-Lab"
 REPO_NAME = "knowledge-index"
 
