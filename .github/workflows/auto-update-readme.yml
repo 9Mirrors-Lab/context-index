@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Update markdown table
-        uses: DenverCoderOne/readme-repos-list@v2.0.0
+        uses: DenverCoderOne/readme-repos-list@v1.3.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           query: user:9Mirrors-Lab fork:true
