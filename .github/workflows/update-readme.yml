@@ -23,8 +23,8 @@ jobs:
 
       - name: Write private key to file
         run: |
-          # Ensure proper PEM formatting
-          echo "${{ secrets.PRIVATE_KEY }}" | sed 's/\\n/\n/g' > private-key.pem
+          # Write private key with proper newline handling
+          echo -e "$PRIVATE_KEY" > private-key.pem
           echo "✅ Private key written to file"
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
