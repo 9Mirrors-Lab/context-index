@@ -1,19 +1,19 @@
-name: Update Know-* Repos List
+name: Update Know Repos List
 
 on:
   schedule:
-    - cron: "0 * * * *"  # Every hour
+    - cron: "0 * * * *"   # hourly
   workflow_dispatch:
 
 jobs:
-  list:
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Update README repos list
-        uses: DenverCoderOne/readme-repos-list@v1
+        uses: koj-co/readme-repos-list@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           query: "org:9Mirrors-Lab know-"
