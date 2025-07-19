@@ -20,13 +20,17 @@ This is a centralized index of reference repositories designed to support AI too
 <!-- REPO-LIST:END -->
 ---
 
-## 🧩 Usage
+## 🧩 How to Use with GitMCP
 
-These repos are structured to support:
-- Claude and Cursor via `mcp.json`
-- Augment Code workflows
-- GitMCP-hosted viewers and assistant lookups
+You can browse or query these repos using [gitmcp.io](https://gitmcp.io):
 
-> To add these to your AI coding tools, point to the `mcp.json` link under the MCP column.
+1. Instantly create a Remote MCP server for any GitHub repository
+2. Simply change the domain from github.com or github.io to gitmcp.io and get instant AI context for any GitHub repository.
+3. Select any `know-*` repo from the list
+4. View or query its contents using the GitMCP interface
+5. To integrate with Claude or Cursor, copy the `mcp.json` URL from the repo
+
+> These repositories are designed for zero-config ingestion by LLM tools that support GitMCP or local MCP engines.
+
 
 ---
