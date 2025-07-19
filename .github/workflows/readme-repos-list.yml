@@ -2,15 +2,18 @@ name: Update README with Knowledge Repos
 
 on:
   schedule:
-    - cron: '0 8 * * *' # Daily at 8:00 UTC
+    - cron: '0 8 * * *' # daily at 8AM UTC
   workflow_dispatch:
+
+permissions:
+  contents: write   # <-- This is the key fix
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
 
     steps:
-      - name: List repos and update README
+      - name: Update README with list of repos
         uses: koj-co/readme-repos-list@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
