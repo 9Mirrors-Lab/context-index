@@ -10,42 +10,70 @@ from github import Github
 APP_ID = os.getenv("APP_ID")
 INSTALLATION_ID = os.getenv("INSTALLATION_ID")
 PRIVATE_KEY_PATH = "private-key.pem"
+REPO_OWNER = "9Mirrors-Lab"
+REPO_NAME = "knowledge-index"
 
 # Read and format private key properly
 def load_private_key():
     try:
+        print(f"🔍 Looking for private key at: {PRIVATE_KEY_PATH}")
+        if not os.path.exists(PRIVATE_KEY_PATH):
+            print(f"❌ Private key file not found: {PRIVATE_KEY_PATH}")
+            print(f"📁 Current directory contents:")
+            for file in os.listdir("."):
+                print(f"   - {file}")
+            raise FileNotFoundError(f"Private key file not found: {PRIVATE_KEY_PATH}")
+        
         with open(PRIVATE_KEY_PATH, "r") as f:
             private_key = f.read()
         
+        print(f"📄 Private key loaded, length: {len(private_key)} characters")
+        print(f"📄 First 100 chars: {repr(private_key[:100])}")
+        print(f"📄 Last 100 chars: {repr(private_key[-100:])}")
+        
         # Ensure proper PEM formatting
         if not private_key.startswith("-----BEGIN RSA PRIVATE KEY-----"):
+            print("⚠️ Private key doesn't start with proper PEM header, attempting to fix...")
             # If it's not properly formatted, try to fix it
             private_key = private_key.replace("\\n", "\n")
             if not private_key.startswith("-----BEGIN RSA PRIVATE KEY-----"):
+                print("⚠️ Still not formatted, wrapping with PEM headers...")
                 # If still not formatted, wrap it
                 private_key = f"-----BEGIN RSA PRIVATE KEY-----\n{private_key}\n-----END RSA PRIVATE KEY-----"
+            
+            # Write the fixed key back
+            with open(PRIVATE_KEY_PATH, "w") as f:
+                f.write(private_key)
+            print("✅ Fixed private key written back to file")
+        
+        # Final verification
+        if "-----BEGIN RSA PRIVATE KEY-----" in private_key and "-----END RSA PRIVATE KEY-----" in private_key:
+            print("✅ Private key appears to be properly formatted")
+        else:
+            print("❌ Private key still not properly formatted after fixes")
+            raise ValueError("Private key not in proper PEM format")
         
         return private_key
-    except FileNotFoundError:
-        print(f"❌ Private key file not found: {PRIVATE_KEY_PATH}")
-        raise
     except Exception as e:
         print(f"❌ Error loading private key: {e}")
         raise
 
-PRIVATE_KEY = load_private_key()
-REPO_OWNER = "9Mirrors-Lab"
-REPO_NAME = "knowledge-index"
-
 # === Generate JWT ===
 def generate_jwt(app_id, private_key_str):
     try:
+        print(f"🔑 Generating JWT with app_id: {app_id}")
+        print(f"🔑 Private key length: {len(private_key_str)}")
+        print(f"🔑 Private key starts with: {private_key_str[:50]}...")
+        
         payload = {
             "iat": int(time.time()) - 60,
             "exp": int(time.time()) + (10 * 60),
             "iss": app_id
         }
-        return jwt.encode(payload, private_key_str, algorithm="RS256")
+        
+        token = jwt.encode(payload, private_key_str, algorithm="RS256")
+        print("✅ JWT token generated successfully")
+        return token
     except Exception as e:
         print(f"❌ Error generating JWT: {e}")
         print(f"App ID: {app_id}")
@@ -113,9 +141,18 @@ def generate_readme(repos):
 # === Main logic ===
 def main():
     try:
+        print("🚀 Starting README generation process...")
+        print(f"📋 Environment check:")
+        print(f"   - APP_ID: {APP_ID}")
+        print(f"   - INSTALLATION_ID: {INSTALLATION_ID}")
+        print(f"   - REPO_OWNER: {REPO_OWNER}")
+        print(f"   - REPO_NAME: {REPO_NAME}")
+        
+        print("🔑 Loading private key...")
+        private_key = load_private_key()
+        
         print("🔑 Generating JWT token...")
-        jwt_token = generate_jwt(APP_ID, PRIVATE_KEY)
-        print("✅ JWT token generated successfully")
+        jwt_token = generate_jwt(APP_ID, private_key)
         
         print("🔑 Getting installation token...")
         installation_token = get_installation_token(jwt_token, INSTALLATION_ID)
@@ -147,6 +184,8 @@ def main():
             
     except Exception as e:
         print(f"❌ Error in main execution: {e}")
+        import traceback
+        traceback.print_exc()
         raise
 
 if __name__ == "__main__":

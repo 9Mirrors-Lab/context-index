@@ -35,6 +35,12 @@ jobs:
       - name: Test private key formatting
         run: python .github/scripts/test_private_key.py
 
+      - name: Debug private key issues
+        run: python .github/scripts/debug_key.py
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
+
       - name: Run generate_readme.py
         run: python .github/scripts/generate_readme.py
         env:
