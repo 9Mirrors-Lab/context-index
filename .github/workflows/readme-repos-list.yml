@@ -21,8 +21,6 @@ jobs:
           path: README.md
           start: '<!-- REPO-LIST:START -->'
           end: '<!-- REPO-LIST:END -->'
-          commit-message: 'chore: update repo list'
-          no-homepage: true            # disables avatar + homepage
-          suffix: ''                   # disables default image/markdown card style
-          prefix: '- ['                # beginning of each line
-          end: '](https://github.com/${{ repo.full_name }})' # builds clean markdown link
+          prefix: '- ['
+          suffix: '](https://github.com/${{ repo.full_name }})'
+          no-homepage: true
