@@ -15,13 +15,11 @@ jobs:
     steps:
       - name: Update README with clean list of repos
         uses: DenverCoderOne/readme-repos-list@v2.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          query: user:9Mirrors-Lab in:name know
-          path: README.md
-          start: '<!-- REPO-LIST:START -->'
-          end: '<!-- REPO-LIST:END -->'
-          prefix: '- ['
-          suffix: '](https://github.com/9Mirrors-Lab/${name})'
-          no-homepage: true
-          weserv-query: ''
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            query: user:9Mirrors-Lab in:name know-
+            path: README.md
+            start: '<!-- REPO-LIST:START -->'
+            end: '<!-- REPO-LIST:END -->'
+            max: 100
+            template: '- [{{name}}]({{url}}) - {{description}}'
