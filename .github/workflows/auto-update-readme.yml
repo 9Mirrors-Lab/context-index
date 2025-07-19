@@ -1,102 +1,25 @@
-name: Auto-update README on repo changes
+name: Update README
 
 on:
-  repository_dispatch:
-    types: [repo-added]
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Update markdown table
+        uses: DenverCoderOne/readme-repos-list@v2.0.0
         with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: pip install PyGithub python-dotenv pyjwt[crypto] requests cryptography
-
-      - name: Write private key to file
-        run: |
-          # Decode base64 encoded private key to avoid GitHub secret masking
-          echo "$PRIVATE_KEY" | base64 -d > private-key.raw
-          echo "✅ Private key written to file"
-          
-          # Check file format
-          FILE_OUTPUT=$(file private-key.raw)
-          echo "🔍 File detection output: $FILE_OUTPUT"
-          
-          # Check if it's DER format (binary data starting with 0x30 0x82)
-          FIRST_BYTES=$(hexdump -C private-key.raw | head -1 | cut -d' ' -f2-3)
-          echo "🔍 First bytes: $FIRST_BYTES"
-          
-          if [[ "$FIRST_BYTES" == "30 82" ]] || echo "$FILE_OUTPUT" | grep -q -i "der\|data"; then
-            echo "🔧 Converting DER format to PKCS#8 PEM format..."
-            openssl pkcs8 -inform DER -in private-key.raw -nocrypt -out private-key.pem
-            echo "✅ Converted DER to PKCS#8 PEM format"
-          elif echo "$FILE_OUTPUT" | grep -q "PEM RSA private key"; then
-            echo "🔧 Converting PKCS#1 (RSA) to PKCS#8 format..."
-            openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in private-key.raw -out private-key.pem
-            echo "✅ Converted PKCS#1 to PKCS#8 format"
-          else
-            echo "🔧 Assuming already PKCS#8 PEM format, copying file..."
-            cp private-key.raw private-key.pem
-          fi
-          
-          # Validate and fix PEM format (ensure 64-character lines)
-          echo "🔧 Validating PEM format..."
-          if head -1 private-key.pem | grep -q "BEGIN PRIVATE KEY"; then
-            echo "🔧 Reformatting PEM to ensure proper line lengths..."
-            
-            # Extract the base64 content (remove headers/footers)
-            sed '/-----BEGIN/d;/-----END/d' private-key.pem | tr -d '\n\r' > temp-base64.txt
-            
-            # Create properly formatted PEM with 64-character lines
-            echo "-----BEGIN PRIVATE KEY-----" > private-key.pem
-            fold -w 64 temp-base64.txt >> private-key.pem
-            echo "-----END PRIVATE KEY-----" >> private-key.pem
-            
-            # Clean up
-            rm -f temp-base64.txt
-            echo "✅ PEM format validated and corrected"
-          fi
-          
-          # Verify the final format
-          echo "🔍 Final key format:"
-          head -1 private-key.pem
-          echo "🔍 Key file size: $(wc -c < private-key.pem) bytes"
-          echo "🔍 Number of lines: $(wc -l < private-key.pem)"
-        env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY_BASE64 }}
-
-      - name: Check dependencies
-        run: python .github/scripts/check_dependencies.py
-
-      - name: Test base64 decoding
-        run: python .github/scripts/test_base64_decode.py
-
-      - name: Test private key formatting
-        run: python .github/scripts/test_private_key.py
-
-      - name: Debug private key issues
-        run: python .github/scripts/debug_key.py
-        env:
-          APP_ID: ${{ secrets.APP_ID }}
-          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
-
-      - name: Run generate_readme.py
-        run: python .github/scripts/generate_readme.py
-        env:
-          APP_ID: ${{ secrets.APP_ID }}
-          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
-
-      - name: Commit and push changes
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add README.md
-          git commit -m "Auto-update README after repo addition" || echo "No changes"
-          git push
+          token: ${{ secrets.GITHUB_TOKEN }}
+          query: user:9Mirrors-Lab fork:true
+          prefix: knowledge-
+          path: README.md
+          start: '<!-- REPO-TABLE:START -->'
+          end: '<!-- REPO-TABLE:END -->'
+          template: '| [{{name}}]({{url}}) | [GitHub]({{url}}) | ✅ |'
