@@ -6,22 +6,13 @@
 This is a centralized index of reference repositories designed to support AI tools like Claude, GitMCP, Cursor, and custom LLM workflows. Each listed repo contains curated code, prompts, or workflow assets prepared for AI context ingestion.
 ## Knowledge Repos
 
-<!-- REPO-LIST:START -->
-<!-- This list is auto-generated using readme-repos-list -->
-<!-- Do not edit this list manually, your changes will be overwritten -->
-* [knowledge-index](https://github.com/9Mirrors-Lab/knowledge-index) - Central index of AI reference repos (Pine Script, n8n, prompts, etc.)
-
-* [knowledge-PineScript](https://github.com/9Mirrors-Lab/knowledge-PineScript) - A collection of TradingView Pine Script codes.
-
-* [knowledge-tradingview-pinescript-v6-reference](https://github.com/9Mirrors-Lab/knowledge-tradingview-pinescript-v6-reference) - Structured Pine Script v6 documentation for MCP or RAG use
-
-<!-- REPO-LIST:END -->
-
 ## 📚 Auto-Indexed Knowledge Repositories
 
 | Repo | GitHub | MCP |
 |------|--------|-----|
-<!-- Auto-generated content will go here -->
+<!-- REPO-TABLE:START -->
+<!-- This will be populated by the GitHub Action -->
+<!-- REPO-TABLE:END -->
 
 ---
 
