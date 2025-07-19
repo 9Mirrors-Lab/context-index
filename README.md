@@ -9,10 +9,6 @@ This is a centralized index of reference repositories designed to support AI too
 <!-- REPO-LIST:START -->
 <!-- This list is auto-generated using readme-repos-list -->
 <!-- Do not edit this list manually, your changes will be overwritten -->
-* [know-tradingview-pinescript-v6-reference](https://github.com/9Mirrors-Lab/know-tradingview-pinescript-v6-reference) - Structured Pine Script v6 documentation for MCP or RAG use
-
-* [knowledge-index](https://github.com/9Mirrors-Lab/knowledge-index) - Central index of AI reference repos (Pine Script, n8n, prompts, etc.)
-
 <!-- REPO-LIST:END -->
 
 ## 📚 Auto-Indexed Knowledge Repositories
