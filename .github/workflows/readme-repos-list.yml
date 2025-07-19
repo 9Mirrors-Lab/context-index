@@ -11,18 +11,15 @@ permissions:
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
 
-      - name: Generate repo list in README
+    steps:
+      - name: Update README with list of repos
         uses: DenverCoderOne/readme-repos-list@v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          user: 9Mirrors-Lab
-          prefix: 'know-'                   # filters repos by prefix
-          max: 100                          # optional limit
+          user: 9Mirrors-Lab                # this defines the account/org
+          prefix: know-                    # filters by repo name
           filename: README.md
           start: '<!-- REPO-LIST:START -->'
           end: '<!-- REPO-LIST:END -->'
-          template: '- [{{name}}]({{url}})'  # renders clean markdown links
+          template: '- [{{name}}]({{url}})'
