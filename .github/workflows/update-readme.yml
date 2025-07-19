@@ -25,12 +25,7 @@ jobs:
         run: |
           # Ensure proper PEM formatting
           echo "${{ secrets.PRIVATE_KEY }}" | sed 's/\\n/\n/g' > private-key.pem
-          # Verify the key format
-          if ! grep -q "-----BEGIN RSA PRIVATE KEY-----" private-key.pem; then
-            echo "❌ Private key is not in proper PEM format"
-            exit 1
-          fi
-          echo "✅ Private key formatted correctly"
+          echo "✅ Private key written to file"
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
 
