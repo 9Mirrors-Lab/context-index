@@ -1,8 +1,8 @@
-name: Update README
+name: Update README with Knowledge Repos
 
 on:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 8 * * *'  # Runs daily at 8 AM UTC
   workflow_dispatch:
 
 permissions:
@@ -13,13 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Update markdown table
-        uses: DenverCoderOne/readme-repos-list@v1.3.2
+      - name: Update README with Knowledge Repos
+        uses: DenverCoderOne/readme-repos-list@v2.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          query: user:9Mirrors-Lab fork:true
-          prefix: knowledge-
+          token: ${{ secrets.GITHUB_TOKEN }}       # Or use GH_PAT if private repos are needed
+          query: user:9Mirrors-Lab in:name know- fork:true
           path: README.md
-          start: '<!-- REPO-TABLE:START -->'
-          end: '<!-- REPO-TABLE:END -->'
-          template: '| [{{name}}]({{url}}) | [GitHub]({{url}}) | ✅ |'
+          start: '<!-- REPO-LIST:START -->'
+          end: '<!-- REPO-LIST:END -->'
+          max: 100
+          template: '- [{{name}}]({{url}}) - {{description}}'
