@@ -71,9 +71,27 @@ def generate_jwt(app_id, private_key_str):
             "iss": app_id
         }
         
+        # Use the private key directly - PyJWT handles RSA private keys correctly
         token = jwt.encode(payload, private_key_str, algorithm="RS256")
         print("✅ JWT token generated successfully")
         return token
+    except jwt.InvalidKeyError as e:
+        print(f"❌ Invalid key format: {e}")
+        print("🔧 Attempting to fix key format...")
+        
+        # Try to fix common key format issues
+        try:
+            # Remove any extra whitespace and ensure proper line breaks
+            cleaned_key = private_key_str.strip()
+            if not cleaned_key.endswith('\n'):
+                cleaned_key += '\n'
+            
+            token = jwt.encode(payload, cleaned_key, algorithm="RS256")
+            print("✅ JWT token generated successfully with cleaned key")
+            return token
+        except Exception as e2:
+            print(f"❌ Still failed with cleaned key: {e2}")
+            raise
     except Exception as e:
         print(f"❌ Error generating JWT: {e}")
         print(f"App ID: {app_id}")
@@ -167,7 +185,7 @@ def main():
         print("📝 Generating README content...")
         readme_content = generate_readme(repos)
 
-        print("📄 Updating README.md...")
+        print("�� Updating README.md...")
         repo = gh.get_repo(f"{REPO_OWNER}/{REPO_NAME}")
         contents = repo.get_contents("README.md")
 

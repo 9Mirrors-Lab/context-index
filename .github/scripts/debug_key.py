@@ -93,6 +93,30 @@ def debug_private_key():
                 print("✅ JWT generation successful with original key!")
                 return True
                 
+            except jwt.InvalidKeyError as e:
+                print(f"❌ JWT generation failed with original key: {e}")
+                print("🔧 This is likely a key format issue. Trying to fix...")
+                
+                # Try to fix the key format
+                try:
+                    # Clean the key - remove extra whitespace and ensure proper formatting
+                    cleaned_key = private_key.strip()
+                    if not cleaned_key.endswith('\n'):
+                        cleaned_key += '\n'
+                    
+                    # Ensure proper PEM formatting
+                    if not cleaned_key.startswith("-----BEGIN RSA PRIVATE KEY-----"):
+                        cleaned_key = f"-----BEGIN RSA PRIVATE KEY-----\n{cleaned_key}\n-----END RSA PRIVATE KEY-----"
+                    
+                    token = jwt.encode(payload, cleaned_key, algorithm="RS256")
+                    print("✅ JWT generation successful with cleaned key!")
+                    return True
+                    
+                except Exception as e2:
+                    print(f"❌ JWT generation still failed with cleaned key: {e2}")
+                    print("🔍 This might be a different issue - check the private key content")
+                    return False
+                    
             except Exception as e:
                 print(f"❌ JWT generation failed with original key: {e}")
                 return False
