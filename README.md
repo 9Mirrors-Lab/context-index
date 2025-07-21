@@ -9,6 +9,8 @@ This is a centralized index of reference repositories designed to support AI too
 <!-- REPO-LIST:START -->
 <!-- This list is auto-generated using readme-repos-list -->
 <!-- Do not edit this list manually, your changes will be overwritten -->
+* [know-n8n-mcp](https://github.com/9Mirrors-Lab/know-n8n-mcp)
+
 * [know-n8n-workflows](https://github.com/9Mirrors-Lab/know-n8n-workflows) - all of the workflows of n8n i could find (also from the site itself)
 
 * [know-PineScript](https://github.com/9Mirrors-Lab/know-PineScript) - A collection of TradingView Pine Script codes.
