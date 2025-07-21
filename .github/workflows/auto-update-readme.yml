@@ -21,4 +21,4 @@ jobs:
           start: '<!-- REPO-LIST:START -->'
           end: '<!-- REPO-LIST:END -->'
           max: 100
-          template: '- [{{name}}]({{url}}) - {{description}} — [GitMCP](https://gitmcp.io/9Mirrors-Lab/{{name}})'
+          template: '- [{{name}}]({{url}}) - {{description}}'
