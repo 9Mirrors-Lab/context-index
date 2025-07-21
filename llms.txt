@@ -1,23 +1,10 @@
-Title: Master MCP Index for AI Knowledge Repositories
+tool: list_knowledge_repos
+description: Returns a list of all MCP-ready knowledge repositories in the 9Mirrors-Lab organization.
+parameters: []
 
-This repository is the canonical, machine-readable index for all high-signal, MCP-ready knowledge repositories in the 9Mirrors-Lab organization. It enables AI agents, GitMCP, and LLM tools to discover, route, and ground themselves in the correct domain-specific context for any supported topic or workflow.
-
-Key Components:
-• README.md: Human- and AI-optimized index of all `know-*` and MCP-backed repos, with descriptions and direct GitMCP links.
-• Repo Table: Structured mapping of repo name → description → MCP endpoint for zero-config context ingestion.
-• Auto-update Action: (if present) Keeps the index current as new knowledge repos are added.
-
-Tips or Insights:
-• Architecture Pattern: Centralized index, zero-config routing, and recursive context traversal—enables scalable, multi-domain orchestration.
-• Naming Convention: All domain repos use `know-*` or MCP-specific names for instant discoverability.
-• Domain Assumptions: All listed repos are high-signal, AI-optimized, and MCP-ready—no noise, no legacy cruft.
-• Integration Points: GitMCP, Claude, Cursor, and any LLM tool supporting MCP—use the provided links for direct context ingestion.
-• Search Patterns: "context-index", "MCP index", "9Mirrors-Lab knowledge", "know-*"—use to find or extend the index.
-
-MCP-Specific Considerations:
-• Structured Knowledge: All domain repos are discoverable and linked here for agent traversal.
-• Tool Integration: GitMCP links provide instant, zero-config context for any agent or workflow.
-• Context Preservation: Each domain repo maintains its own context; this index routes queries accurately and prevents domain mixing.
-• Actionable Patterns: Agents can recursively traverse from the index to any domain and ingest the correct context for completions, workflows, or orchestration.
-
-Best used by agents and LLM tools that need to discover, select, and ground themselves in the right knowledge base for any supported topic. Particularly valuable for orchestrating multi-domain workflows, context routing, and zero-hallucination completions.
+tool: get_repo_info
+description: Returns details for a specific knowledge repository.
+parameters:
+  - name: repo
+    type: string
+    description: The repository name (e.g., know-n8n-workflows)
