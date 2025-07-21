@@ -1,0 +1,22 @@
+Title: Master MCP Index for AI Knowledge Repositories
+
+This repository serves as the canonical, machine-readable index of all high-signal, MCP-ready knowledge repositories in the 9Mirrors-Lab organization. It enables AI agents, GitMCP, and LLM tools to discover, route, and ground themselves in the correct domain-specific context for any supported topic.
+
+Key Components:
+• README.md: Human- and AI-optimized index of all `know-*` and MCP-backed repos, with descriptions and direct GitMCP links.
+• Repo Table: Structured mapping of repo name → description → MCP endpoint for zero-config context ingestion.
+• Auto-update Action: (if present) Keeps the index current as new knowledge repos are added.
+
+Tips or Insights:
+• Always start with this index to discover available knowledge domains.
+• Use the GitMCP link for each repo to ingest the full, up-to-date context for that domain.
+• Do not hallucinate or mix domains—ground all completions and workflows in the selected repo’s context.
+• This index is the single source of truth for all MCP-backed knowledge in the org.
+
+MCP-Specific Considerations:
+• Structured Knowledge: All domain repos are discoverable and linked here.
+• Tool Integration: GitMCP links provide instant, zero-config context for any agent.
+• Context Preservation: Each domain repo maintains its own context; this index routes queries accurately.
+• Actionable Patterns: Agents can recursively traverse from the index to any domain and ingest the correct context.
+
+Best used by agents and LLM tools that need to discover, select, and ground themselves in the right knowledge base for any supported topic. Particularly valuable for orchestrating multi-domain workflows, context routing, and zero-hallucination completions.
