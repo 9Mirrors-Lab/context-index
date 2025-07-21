@@ -8,3 +8,28 @@ parameters:
   - name: repo
     type: string
     description: The repository name (e.g., know-n8n-workflows)
+
+---
+Title: Context Index Knowledge Routing for Multi-Domain AI Agents
+
+This repository provides a canonical, machine-readable index of all high-signal, MCP-ready knowledge repositories in the 9Mirrors-Lab organization. It solves the problem of context discovery and routing for AI agents by mapping domain-specific knowledge bases and their MCP endpoints. Ideal for agents and LLM tools needing to ground themselves in the correct context for completions, workflows, or orchestration.
+
+Key Components:
+• README.md: Human- and AI-optimized index of all `know-*` and MCP-backed repos – descriptions and direct GitMCP links – use for quick discovery and onboarding.
+• Repo Table: Structured mapping of repo name → description → MCP endpoint – enables zero-config context ingestion and routing.
+• Auto-update Action: Keeps the index current as new knowledge repos are added – ensures agents always have access to the latest context.
+
+Tips or Insights:
+• Architecture Pattern: Centralized index, zero-config routing, and recursive context traversal – enables scalable, multi-domain orchestration.
+• Naming Convention: All domain repos use `know-*` or MCP-specific names – instant discoverability and extension.
+• Domain Assumptions: All listed repos are high-signal, AI-optimized, and MCP-ready – no noise, no legacy cruft.
+• Integration Points: GitMCP, Claude, Cursor, and any LLM tool supporting MCP – use provided links for direct context ingestion.
+• Search Patterns: "context-index", "MCP index", "9Mirrors-Lab knowledge", "know-*" – use to find or extend the index.
+
+MCP-Specific Considerations:
+• Structured Knowledge: All domain repos are discoverable and linked here for agent traversal.
+• Tool Integration: GitMCP links provide instant, zero-config context for any agent or workflow.
+• Context Preservation: Each domain repo maintains its own context; this index routes queries accurately and prevents domain mixing.
+• Actionable Patterns: Agents can recursively traverse from the index to any domain and ingest the correct context for completions, workflows, or orchestration.
+
+Best used by agents that need to discover, select, and ground themselves in the right knowledge base for any supported topic. Particularly valuable for orchestrating multi-domain workflows, context routing, and zero-hallucination completions.
