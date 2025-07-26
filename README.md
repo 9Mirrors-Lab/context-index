@@ -10,15 +10,6 @@ Every repo listed here is curated for direct ingestion by AI agents, GitMCP, Cla
 ---
 
 ## 🗂️ Knowledge Domains & MCP Links
-
-| Repo Name | Description | GitMCP Link |
-|----------|-------------|-------------|
-| know-n8n-mcp | n8n automation patterns and MCP integration | [gitmcp.io/9Mirrors-Lab/know-n8n-mcp](https://gitmcp.io/9Mirrors-Lab/know-n8n-mcp) |
-| know-n8n-workflows | All n8n workflows (community + custom) | [gitmcp.io/9Mirrors-Lab/know-n8n-workflows](https://gitmcp.io/9Mirrors-Lab/know-n8n-workflows) |
-| know-PineScript | TradingView Pine Script code library | [gitmcp.io/9Mirrors-Lab/know-PineScript](https://gitmcp.io/9Mirrors-Lab/know-PineScript) |
-| know-tradingview-pinescript-v6-reference | Pine Script v6 docs for MCP/RAG | [gitmcp.io/9Mirrors-Lab/know-tradingview-pinescript-v6-reference](https://gitmcp.io/9Mirrors-Lab/know-tradingview-pinescript-v6-reference) |
-
----
 <!-- REPO-LIST:START -->
 <!-- This list is auto-generated using readme-repos-list -->
 <!-- Do not edit this list manually, your changes will be overwritten -->
