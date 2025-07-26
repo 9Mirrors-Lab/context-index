@@ -16,7 +16,7 @@ Every repo listed here is curated for direct ingestion by AI agents, GitMCP, Cla
 | Repo Name | Description | GitMCP Link |
 |----------|-------------|-------------|
 | know-context7 | Context7 MCP Server -- Up-to-date code documentation for LLMs and AI code editors | [gitmcp.io/9Mirrors-Lab/know-context7](https://gitmcp.io/9Mirrors-Lab/know-context7) |
-| know-n8n-docs | Documentation for n8n, a fair-code licensed automation tool with a free community edition and powerful enterprise options. Build AI functionality into your workflows. | [gitmcp.io/9Mirrors-Lab/know-n8n-docs](https://gitmcp.io/9Mirrors-Lab/know-n8n-docs) |
+| know-n8n-docs | Documentation for n8n. Build AI functionality into your workflows. | [gitmcp.io/9Mirrors-Lab/know-n8n-docs](https://gitmcp.io/9Mirrors-Lab/know-n8n-docs) |
 | know-n8n-mcp |  | [gitmcp.io/9Mirrors-Lab/know-n8n-mcp](https://gitmcp.io/9Mirrors-Lab/know-n8n-mcp) |
 | know-n8n-workflows | all of the workflows of n8n i could find (also from the site itself) | [gitmcp.io/9Mirrors-Lab/know-n8n-workflows](https://gitmcp.io/9Mirrors-Lab/know-n8n-workflows) |
 | know-PineScript | A collection of TradingView Pine Script codes. | [gitmcp.io/9Mirrors-Lab/know-PineScript](https://gitmcp.io/9Mirrors-Lab/know-PineScript) |
