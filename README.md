@@ -19,6 +19,8 @@ Every repo listed here is curated for direct ingestion by AI agents, GitMCP, Cla
 | know-tradingview-pinescript-v6-reference | Pine Script v6 docs for MCP/RAG | [gitmcp.io/9Mirrors-Lab/know-tradingview-pinescript-v6-reference](https://gitmcp.io/9Mirrors-Lab/know-tradingview-pinescript-v6-reference) |
 
 ---
+<!-- REPO-LIST:START -->
+<!-- REPO-LIST:END -->
 
 ## 🧭 How AI Agents & GitMCP Should Use This Index
 
