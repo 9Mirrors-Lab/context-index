@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Generate repo list in README
-        uses: 9Mirrors-Lab/readme-repos-list@main
+        uses: 9Mirrors-Lab/readme-repos-list@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           query: user:9Mirrors-Lab in:name knowledge fork:true
