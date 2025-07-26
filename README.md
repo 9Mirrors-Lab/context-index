@@ -22,6 +22,15 @@ Every repo listed here is curated for direct ingestion by AI agents, GitMCP, Cla
 <!-- REPO-LIST:START -->
 <!-- This list is auto-generated using readme-repos-list -->
 <!-- Do not edit this list manually, your changes will be overwritten -->
+| Repo Name | Description | GitMCP Link |
+|----------|-------------|-------------|
+| know-context7 | Context7 MCP Server -- Up-to-date code documentation for LLMs and AI code editors | [gitmcp.io/9Mirrors-Lab/know-context7](https://gitmcp.io/9Mirrors-Lab/know-context7) |
+| know-n8n-docs | Documentation for n8n, a fair-code licensed automation tool with a free community edition and powerful enterprise options. Build AI functionality into your workflows. | [gitmcp.io/9Mirrors-Lab/know-n8n-docs](https://gitmcp.io/9Mirrors-Lab/know-n8n-docs) |
+| know-n8n-mcp |  | [gitmcp.io/9Mirrors-Lab/know-n8n-mcp](https://gitmcp.io/9Mirrors-Lab/know-n8n-mcp) |
+| know-n8n-workflows | all of the workflows of n8n i could find (also from the site itself) | [gitmcp.io/9Mirrors-Lab/know-n8n-workflows](https://gitmcp.io/9Mirrors-Lab/know-n8n-workflows) |
+| know-PineScript | A collection of TradingView Pine Script codes. | [gitmcp.io/9Mirrors-Lab/know-PineScript](https://gitmcp.io/9Mirrors-Lab/know-PineScript) |
+| know-railway-docs | Railway documentation site built with Next.js and TailwindCSS | [gitmcp.io/9Mirrors-Lab/know-railway-docs](https://gitmcp.io/9Mirrors-Lab/know-railway-docs) |
+| know-tradingview-pinescript-v6-reference | Structured Pine Script v6 documentation for MCP or RAG use | [gitmcp.io/9Mirrors-Lab/know-tradingview-pinescript-v6-reference](https://gitmcp.io/9Mirrors-Lab/know-tradingview-pinescript-v6-reference) |
 <!-- REPO-LIST:END -->
 
 ## 🧭 How AI Agents & GitMCP Should Use This Index
