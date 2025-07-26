@@ -1,4 +1,4 @@
-name: Update README with Knowledge Repos
+name: Update README with GITMCP
 
 on:
   schedule:
@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Generate repo list in README
-        uses: DenverCoderOne/readme-repos-list@v2.0.0
+        uses: 9Mirrors-Lab/readme-repos-list@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           query: user:9Mirrors-Lab in:name knowledge fork:true
@@ -22,4 +22,3 @@ jobs:
           start: '<!-- REPO-LIST:START -->'
           end: '<!-- REPO-LIST:END -->'
           max: 100
-          template: '- [{{name}}]({{url}}) - {{description}}'
