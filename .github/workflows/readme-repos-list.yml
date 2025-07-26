@@ -17,7 +17,7 @@ jobs:
         uses: 9Mirrors-Lab/readme-repos-list@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          query: user:9Mirrors-Lab in:name knowledge fork:true
+          query: user:9Mirrors-Lab in:name know fork:true
           path: README.md
           start: '<!-- REPO-LIST:START -->'
           end: '<!-- REPO-LIST:END -->'
