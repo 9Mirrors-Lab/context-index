@@ -22,20 +22,6 @@ Every repo listed here is curated for direct ingestion by AI agents, GitMCP, Cla
 <!-- REPO-LIST:START -->
 <!-- This list is auto-generated using readme-repos-list -->
 <!-- Do not edit this list manually, your changes will be overwritten -->
-* [know-context7](https://github.com/9Mirrors-Lab/know-context7) - Context7 MCP Server -- Up-to-date code documentation for LLMs and AI code editors
-
-* [know-n8n-docs](https://github.com/9Mirrors-Lab/know-n8n-docs) - Documentation for n8n, a fair-code licensed automation tool with a free community edition and powerful enterprise options. Build AI functionality into your workflows.
-
-* [know-n8n-mcp](https://github.com/9Mirrors-Lab/know-n8n-mcp)
-
-* [know-n8n-workflows](https://github.com/9Mirrors-Lab/know-n8n-workflows) - all of the workflows of n8n i could find (also from the site itself)
-
-* [know-PineScript](https://github.com/9Mirrors-Lab/know-PineScript) - A collection of TradingView Pine Script codes.
-
-* [know-railway-docs](https://github.com/9Mirrors-Lab/know-railway-docs) - Railway documentation site built with Next.js and TailwindCSS
-
-* [know-tradingview-pinescript-v6-reference](https://github.com/9Mirrors-Lab/know-tradingview-pinescript-v6-reference) - Structured Pine Script v6 documentation for MCP or RAG use
-
 <!-- REPO-LIST:END -->
 
 ## 🧭 How AI Agents & GitMCP Should Use This Index
