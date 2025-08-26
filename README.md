@@ -19,8 +19,6 @@ Every repo listed here is curated for direct ingestion by AI agents, GitMCP, Cla
 
 * [know-n8n-mcp](https://github.com/9Mirrors-Lab/know-n8n-mcp)
 
-* [know-n8n-workflows](https://github.com/9Mirrors-Lab/know-n8n-workflows) - all of the workflows of n8n i could find (also from the site itself)
-
 * [know-PineScript](https://github.com/9Mirrors-Lab/know-PineScript) - A collection of TradingView Pine Script codes.
 
 * [know-railway-docs](https://github.com/9Mirrors-Lab/know-railway-docs) - Railway documentation site built with Next.js and TailwindCSS
