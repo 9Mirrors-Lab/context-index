@@ -13,14 +13,18 @@ Every repo listed here is curated for direct ingestion by AI agents, GitMCP, Cla
 <!-- REPO-LIST:START -->
 <!-- This list is auto-generated using readme-repos-list -->
 <!-- Do not edit this list manually, your changes will be overwritten -->
-| Repo Name | Description | GitMCP Link |
-|----------|-------------|-------------|
-| know-context7 | Context7 MCP Server -- Up-to-date code documentation for LLMs and AI code editors | [gitmcp.io/9Mirrors-Lab/know-context7](https://gitmcp.io/9Mirrors-Lab/know-context7) |
-| know-n8n-docs | Documentation for n8n. Build AI functionality into your workflows. | [gitmcp.io/9Mirrors-Lab/know-n8n-docs](https://gitmcp.io/9Mirrors-Lab/know-n8n-docs) |
-| know-n8n-mcp |  | [gitmcp.io/9Mirrors-Lab/know-n8n-mcp](https://gitmcp.io/9Mirrors-Lab/know-n8n-mcp) |
-| know-PineScript | A collection of TradingView Pine Script codes. | [gitmcp.io/9Mirrors-Lab/know-PineScript](https://gitmcp.io/9Mirrors-Lab/know-PineScript) |
-| know-railway-docs | Railway documentation site built with Next.js and TailwindCSS | [gitmcp.io/9Mirrors-Lab/know-railway-docs](https://gitmcp.io/9Mirrors-Lab/know-railway-docs) |
-| know-tradingview-pinescript-v6-reference | Structured Pine Script v6 documentation for MCP or RAG use | [gitmcp.io/9Mirrors-Lab/know-tradingview-pinescript-v6-reference](https://gitmcp.io/9Mirrors-Lab/know-tradingview-pinescript-v6-reference) |
+* [know-context7](https://github.com/9Mirrors-Lab/know-context7) - Context7 MCP Server -- Up-to-date code documentation for LLMs and AI code editors
+
+* [know-n8n-docs](https://github.com/9Mirrors-Lab/know-n8n-docs) - Documentation for n8n. Build AI functionality into your workflows.
+
+* [know-n8n-mcp](https://github.com/9Mirrors-Lab/know-n8n-mcp)
+
+* [know-PineScript](https://github.com/9Mirrors-Lab/know-PineScript) - A collection of TradingView Pine Script codes.
+
+* [know-railway-docs](https://github.com/9Mirrors-Lab/know-railway-docs) - Railway documentation site built with Next.js and TailwindCSS
+
+* [know-tradingview-pinescript-v6-reference](https://github.com/9Mirrors-Lab/know-tradingview-pinescript-v6-reference) - Structured Pine Script v6 documentation for MCP or RAG use
+
 <!-- REPO-LIST:END -->
 
 ## 🧭 How AI Agents & GitMCP Should Use This Index
